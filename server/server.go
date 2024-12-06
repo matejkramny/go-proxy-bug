@@ -14,11 +14,16 @@ func EchoServer(ws *websocket.Conn) {
 	ws.Request().Body.Close()
 	time.Sleep(time.Second)
 
-	ws.Write([]byte("server closed request body.."))
+	str := "server closed request body.."
+	fmt.Printf("Sending: %v\n", str)
+	ws.Write([]byte(str))
 	time.Sleep(time.Second * 5)
 
-	ws.Write([]byte("this isn't received?"))
+	str = "this isn't received?"
+	fmt.Printf("Sending: %v\n", str)
+	ws.Write([]byte(str))
 	time.Sleep(time.Second * 5)
+
 	// io.Copy(ws, ws)
 
 	fmt.Println("done")

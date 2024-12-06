@@ -1,4 +1,4 @@
-.PHONY: all build dev server proxy client
+.PHONY: all build dev server
 
 all: build
 	./bin/proxy-bug
@@ -11,9 +11,3 @@ dev:
 
 server: build
 	./bin/proxy-bug server
-
-proxy: build
-	./bin/proxy-bug proxy
-
-client: build
-	./bin/proxy-bug client

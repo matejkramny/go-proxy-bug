@@ -28,6 +28,6 @@ func Start() {
 		}
 
 		fmt.Printf("Received: %s.\n", msg[:n])
-		ws.Req.Body.Close()
+		// ws.Req.Body.Close()
 	}
 }

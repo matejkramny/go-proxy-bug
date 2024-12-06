@@ -7,16 +7,23 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var tcpProxy bool
 var proxyCmd = &cobra.Command{
 	Use:   "proxy",
 	Short: "starts a proxy server",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("proxy called")
-		proxy.Serve()
+		if tcpProxy {
+			proxy.ServeWithTCP()
+		} else {
+			proxy.ServeOriginal()
+		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(proxyCmd)
+
+	proxyCmd.Flags().BoolVarP(&tcpProxy, "tcp", "t", false, "wrap httputil.ReverseProxy in tcp proxy")
 }

@@ -11,13 +11,22 @@ import (
 	"golang.org/x/net/websocket"
 )
 
-func StartRaw() {
-	addr, err := net.ResolveTCPAddr("tcp", "127.0.0.1:8800")
+const (
+	proxyAddr  = "127.0.0.1:8800"
+	directAddr = "127.0.0.1:8899"
+)
+
+func StartRaw(disconnectWrite, direct bool) {
+	addrStr := proxyAddr
+	if direct {
+		addrStr = directAddr
+	}
+
+	addr, err := net.ResolveTCPAddr("tcp", addrStr)
 	if err != nil {
 		panic(err)
 	}
 	c, err := net.DialTCP("tcp", nil, addr)
-	// c, err := net.Dial("tcp", "127.0.0.1:8800")
 	if err != nil {
 		panic(err)
 	}
@@ -70,8 +79,10 @@ func StartRaw() {
 		}
 
 		fmt.Printf("Received: %s.\n", msg[:n])
-		fmt.Println("Closing write")
-		fmt.Println(c.CloseWrite())
+		if disconnectWrite {
+			fmt.Println("Closing write")
+			fmt.Println(c.CloseWrite())
+		}
 
 		// br.Req.Body.Close()
 	}

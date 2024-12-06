@@ -12,11 +12,12 @@ import (
 	"time"
 )
 
+// dial the websocket server
 func dialer() (net.Conn, error) {
 	return net.Dial("tcp", "127.0.0.1:8899")
 }
 
-func Serve() error {
+func ServeWithTCP() error {
 	// create inmemory listener
 	inmem := NewInmemSocket("inmem", 10)
 
@@ -105,6 +106,7 @@ func Serve() error {
 	fmt.Println("Listening")
 
 	err = server.Serve(inmem)
+	// err = server.Serve(listener)
 	if err != nil {
 		fmt.Println(err)
 	}
